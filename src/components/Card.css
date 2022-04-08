@@ -1,0 +1,20 @@
+.CardContainer{
+    height: auto;
+    width: auto;
+    padding: 10px;
+    margin: 10px;
+    background-color: rgba(40, 27, 188, 0.1);
+    border-radius: 50px;
+}
+.image{
+    border-radius: 50px;
+}
+/* .hover--adios{
+    display: none;
+    transition: ease-out;
+}
+.hover--hola{
+    display: block;
+    visibility: visible;
+    opacity: 1;
+} */
