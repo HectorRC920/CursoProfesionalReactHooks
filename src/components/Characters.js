@@ -19,8 +19,9 @@ const Characters = (props) => {
 
   return (
     <div className="Characters">
-      {characters.map((character) => {
+      {characters.map((character,key) => {
         return (
+          <div key={key}>
             <Card
                 image={character.image}
                 name={character.name}
@@ -29,6 +30,7 @@ const Characters = (props) => {
                 gender={character.gender}
                 origin={character.origin}
             />
+          </div>
         );
       })}
 

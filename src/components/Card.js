@@ -9,7 +9,7 @@ const Card = (props) =>{
         setHover('adios')
     }
     return (
-        <div className='CardContainer' onMouseEnter={onHover} onMouseLeave={onLeave}>
+        <div id={props.name} key={props.name} className='CardContainer' onMouseEnter={onHover} onMouseLeave={onLeave}>
             <img className='image' src={props.image}></img>
             <h2 className='name' key={props.name}>{props.name}</h2>
             <div className={`hover--${hover}`}>
