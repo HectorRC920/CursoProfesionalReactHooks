@@ -1,8 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useReducer } from "react";
 import Card from "./Card";
 import './Characters.css';
 const BASE_URL = "https://rickandmortyapi.com/api/character/";
+
+const initialState = {
+  favorites: []
+}
+const favoriteReducer = (state,action) => {
+  switch (action.type) {
+    case 'ADD_TO_FAVORITE':
+      return{
+        ...state,
+        favorites: [...state.favorites, action.payload]
+      }
+    default:
+      return state;
+  }
+}
 const Characters = (props) => {
+    const [favorites, dispatch] = useReducer(favoriteReducer, initialState);
     const [characters, setCharacters] = useState([]);
     useEffect(() => {
       const charactersindex = () => {
@@ -16,13 +32,22 @@ const Characters = (props) => {
       .then((response) => response.json())
       .then((data) => setCharacters(data))
   }, []);
-
+  const handleClick = (favorite) => {
+    dispatch({ type: "ADD_TO_FAVORITE", payload: favorite })
+  }
   return (
     <div className="Characters">
+      {favorites.favorites.map(favorite => (
+        <li key={favorite.id}>
+          {favorite.name}
+        </li>
+      ))}
       {characters.map((character,key) => {
         return (
           <div key={key}>
             <Card
+                character={character}
+                handleClick={handleClick}
                 image={character.image}
                 name={character.name}
                 status={character.status}

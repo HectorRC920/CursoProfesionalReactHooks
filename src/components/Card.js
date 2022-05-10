@@ -10,7 +10,7 @@ const Card = (props) =>{
     }
     return (
         <div id={props.name} key={props.name} className='CardContainer' onMouseEnter={onHover} onMouseLeave={onLeave}>
-            <img className='image' src={props.image}></img>
+            <img className='image' alt={props.name} src={props.image}></img>
             <h2 className='name' key={props.name}>{props.name}</h2>
             <div className={`hover--${hover}`}>
                 <p>Estatus: {props.status}</p>
@@ -18,6 +18,7 @@ const Card = (props) =>{
                 <p>Genero: {props.gender}</p>
                 <p>Origen: {props.origin.name}</p>
             </div>
+            <button type='button' onClick={() => props.handleClick(props.character)}>Agregar a favs</button>
         </div>
     );
 }
