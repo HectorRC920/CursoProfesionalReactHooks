@@ -37,8 +37,12 @@ const Characters = (props) => {
 
   const handleClick = (favorite) => {
     dispatch({ type: "ADD_TO_FAVORITE", payload: favorite })
+    characters.forEach(character => {
+      if(favorite.id === character.id){
+        character.favorite = true
+      }
+    });
   }
-
   const handleSearch = (event) => {
     setSearch(event.target.value)
   }
@@ -54,19 +58,23 @@ const Characters = (props) => {
 
   
   return (
-    <div className="Characters">
+  <>
       <div className="Search">
         <input type='text' value={search} onChange={handleSearch}/>
       </div>
-      {favorites.favorites.map(favorite => (
-        <li key={favorite.id}>
-          {favorite.name}
-        </li>
-      ))}
+      <div className="Favorites">
+        {favorites.favorites.map(favorite => (
+          <li key={favorite.id}>
+            {favorite.name}
+          </li>
+        ))}
+      </div>
+    <div className="Characters">
       {filteredUsers.map((character,key) => {
         return (
           <div key={key}>
             <Card
+                favorites = {favorites}
                 character={character}
                 handleClick={handleClick}
                 image={character.image}
@@ -81,6 +89,7 @@ const Characters = (props) => {
       })}
 
     </div>
+  </>
   );
 };
 export default Characters;

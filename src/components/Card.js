@@ -18,7 +18,10 @@ const Card = (props) =>{
                 <p>Genero: {props.gender}</p>
                 <p>Origen: {props.origin.name}</p>
             </div>
-            <button type='button' onClick={() => props.handleClick(props.character)}>Agregar a favs</button>
+            <button type='button' onClick={() => props.handleClick(props.character)}>
+                {!!props.character.favorite && "En favoritos"}
+                {!props.character.favorite && "Agregar a favs"}
+                </button>
         </div>
     );
 }
