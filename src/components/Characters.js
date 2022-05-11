@@ -1,80 +1,80 @@
-import React, { useEffect, useState, useReducer, useMemo } from "react";
+import React, { useEffect, useState, useReducer, useMemo, useRef } from "react";
 import Card from "./Card";
-import './Characters.css';
+import "./Characters.css";
 const BASE_URL = "https://rickandmortyapi.com/api/character/";
 
 const initialState = {
-  favorites: []
-}
-const favoriteReducer = (state,action) => {
+  favorites: [],
+};
+const favoriteReducer = (state, action) => {
   switch (action.type) {
-    case 'ADD_TO_FAVORITE':
-      return{
+    case "ADD_TO_FAVORITE":
+      return {
         ...state,
-        favorites: [...state.favorites, action.payload]
-      }
+        favorites: [...state.favorites, action.payload],
+      };
     default:
       return state;
   }
-}
+};
 const Characters = (props) => {
-    const [favorites, dispatch] = useReducer(favoriteReducer, initialState);
-    const [characters, setCharacters] = useState([]);
-    const [search, setSearch] = useState('');
+  const [favorites, dispatch] = useReducer(favoriteReducer, initialState);
+  const [characters, setCharacters] = useState([]);
+  const [search, setSearch] = useState("");
+  const searchInput = useRef(null);
 
-    useEffect(() => {
-      const charactersindex = () => {
-          const indexes = []
-          for (let index = 0; index < 20; index++) {
-              indexes.push(Math.floor(Math.random() * 500));
-          }
-          return indexes;
-      };
-    fetch(BASE_URL+charactersindex())
+  useEffect(() => {
+    const charactersindex = () => {
+      const indexes = [];
+      for (let index = 0; index < 20; index++) {
+        indexes.push(Math.floor(Math.random() * 500));
+      }
+      return indexes;
+    };
+    fetch(BASE_URL + charactersindex())
       .then((response) => response.json())
-      .then((data) => setCharacters(data))
+      .then((data) => setCharacters(data));
   }, []);
 
   const handleClick = (favorite) => {
-    dispatch({ type: "ADD_TO_FAVORITE", payload: favorite })
-    characters.forEach(character => {
-      if(favorite.id === character.id){
-        character.favorite = true
+    dispatch({ type: "ADD_TO_FAVORITE", payload: favorite });
+    characters.forEach((character) => {
+      if (favorite.id === character.id) {
+        character.favorite = true;
       }
     });
-  }
-  const handleSearch = (event) => {
-    setSearch(event.target.value)
-  }
+  };
+  const handleSearch = () => {
+    setSearch(searchInput.current.value);
+  };
 
   // const filteredUsers = characters.filter((user) => {
   //   return user.name.toLowerCase().includes(search.toLowerCase());
   // })
-  const filteredUsers = useMemo(() => 
-    characters.filter((user) => {
-      return user.name.toLowerCase().includes(search.toLowerCase());
-    }),[characters,search]
-  )
+  const filteredUsers = useMemo(
+    () =>
+      characters.filter((user) => {
+        return user.name.toLowerCase().includes(search.toLowerCase());
+      }),
+    [characters, search]
+  );
 
-  
   return (
-  <>
+    <>
       <div className="Search">
-        <input type='text' value={search} onChange={handleSearch}/>
+        <input type="text" ref={searchInput} value={search} onChange={handleSearch} />
       </div>
       <div className="Favorites">
-        {favorites.favorites.map(favorite => (
-          <li key={favorite.id}>
-            {favorite.name}
-          </li>
+        {favorites.favorites.map((favorite) => (
+          <li key={favorite.id}>{favorite.name}</li>
         ))}
       </div>
-    <div className="Characters">
-      {filteredUsers.map((character,key) => {
-        return (
-          <div key={key}>
-            <Card
-                favorites = {favorites}
+      <div className="Characters">
+        {filteredUsers.map((character, key) => {
+          return (
+            <div key={key}>
+              <Card
+                favorites={favorites}
                 character={character}
                 handleClick={handleClick}
                 image={character.image}
@@ -83,13 +83,12 @@ const Characters = (props) => {
                 species={character.species}
                 gender={character.gender}
                 origin={character.origin}
-            />
-          </div>
-        );
-      })}
-
-    </div>
-  </>
+              />
+            </div>
+          );
+        })}
+      </div>
+    </>
   );
 };
 export default Characters;

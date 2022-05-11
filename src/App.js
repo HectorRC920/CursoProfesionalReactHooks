@@ -5,13 +5,12 @@ import { useContext, useState } from "react";
 import { ThemeContext } from "./context/ThemeContext";
 
 function App() {
-  const {theme} = useContext(ThemeContext);
+  const { theme } = useContext(ThemeContext);
   return (
-      <div className={`App ${theme}`}>
-        <Header />
-        <Characters />
-      </div>
-
+    <div className={`App ${theme}`}>
+      <Header />
+      <Characters />
+    </div>
   );
 }
 
