@@ -10,7 +10,7 @@ const Header = () => {
   };
   return (
     <div className="Header">
-      <h1>ReactHooks</h1>
+      <h1>{`Rick & Morty`}</h1>
       <button type="button" className="button-toggle" onClick={handleClick}>
         {!!darkMode ? "DarkMode" : "LightMode"}
       </button>

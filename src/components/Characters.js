@@ -8,6 +8,7 @@ import React, {
 } from "react";
 import Card from "./Card";
 import "./Characters.css";
+import useCharacters from "./hooks/useCharacters";
 import { Search } from "./Search";
 const BASE_URL = "https://rickandmortyapi.com/api/character/";
 
@@ -28,22 +29,10 @@ const favoriteReducer = (state, action) => {
 };
 const Characters = (props) => {
   const [favorites, dispatch] = useReducer(favoriteReducer, initialState);
-  const [characters, setCharacters] = useState([]);
   const [search, setSearch] = useState("");
   const searchInput = useRef(null);
 
-  useEffect(() => {
-    const charactersindex = () => {
-      const indexes = [];
-      for (let index = 0; index < 20; index++) {
-        indexes.push(Math.floor(Math.random() * 500));
-      }
-      return indexes;
-    };
-    fetch(BASE_URL + charactersindex())
-      .then((response) => response.json())
-      .then((data) => setCharacters(data));
-  }, []);
+  const characters = useCharacters(BASE_URL)
 
   const handleClick = (favorite) => {
     dispatch({ type: "ADD_TO_FAVORITE", payload: favorite });
