@@ -1,11 +1,20 @@
-import React, { useEffect, useState, useReducer, useMemo, useRef } from "react";
+import React, {
+  useEffect,
+  useState,
+  useReducer,
+  useMemo,
+  useRef,
+  useCallback,
+} from "react";
 import Card from "./Card";
 import "./Characters.css";
+import { Search } from "./Search";
 const BASE_URL = "https://rickandmortyapi.com/api/character/";
 
 const initialState = {
   favorites: [],
 };
+
 const favoriteReducer = (state, action) => {
   switch (action.type) {
     case "ADD_TO_FAVORITE":
@@ -44,10 +53,14 @@ const Characters = (props) => {
       }
     });
   };
-  const handleSearch = () => {
-    setSearch(searchInput.current.value);
-  };
 
+  // const handleSearch = () => {
+  //   setSearch(searchInput.current.value);
+  // };
+
+  const handleSearch = useCallback(() => {
+    setSearch(searchInput.current.value)
+  },[])
   // const filteredUsers = characters.filter((user) => {
   //   return user.name.toLowerCase().includes(search.toLowerCase());
   // })
@@ -61,9 +74,11 @@ const Characters = (props) => {
 
   return (
     <>
-      <div className="Search">
-        <input type="text" ref={searchInput} value={search} onChange={handleSearch} />
-      </div>
+      <Search
+        search={search}
+        searchInput={searchInput}
+        handleSearch={handleSearch}
+      />
       <div className="Favorites">
         {favorites.favorites.map((favorite) => (
           <li key={favorite.id}>{favorite.name}</li>
